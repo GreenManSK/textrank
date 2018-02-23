@@ -82,7 +82,6 @@ public class
 
     public final static String NLP_RESOURCES = "nlp.resources";
     public final static double MIN_NORMALIZED_RANK = 0.05D;
-    public final static int MAX_NGRAM_LENGTH = 5;
     public final static long MAX_WORDNET_TEXT = 2000L;
     public final static long MAX_WORDNET_GRAPH = 600L;
 
@@ -90,6 +89,8 @@ public class
     /**
      * Protected members.
      */
+
+    protected int maxNgramLength = 5;
 
     protected LanguageModel lang = null;
 
@@ -235,7 +236,7 @@ public class
 	for (Node n : ngram_subgraph.values()) {
 	    final NGram gram = (NGram) n.value;
 
-	    if (gram.length < MAX_NGRAM_LENGTH) {
+	    if (gram.length < maxNgramLength) {
 		graph.put(n.key, n);
 
 		for (Node keyword_node : gram.nodes) {
@@ -302,7 +303,7 @@ public class
 	for (Node n : ngram_subgraph.values()) {
 	    final NGram gram = (NGram) n.value;
 
-	    if (gram.length < MAX_NGRAM_LENGTH) {
+	    if (gram.length < maxNgramLength) {
 		final double link_rank = (n.rank - link_min) / link_coeff;
 		final double count_rank = (gram.getCount() - count_min) / count_coeff;
 		final double synset_rank = use_wordnet ? n.maxNeighbor(synset_min, synset_coeff) : 0.0D;
@@ -505,6 +506,14 @@ public class
 
 	LOG.info("\n" + tr);
     }
+
+	public int getMaxNgramLength() {
+		return maxNgramLength;
+	}
+
+	public void setMaxNgramLength(int maxNgramLength) {
+		this.maxNgramLength = maxNgramLength;
+	}
 }
 
 class TextRankCli {
