@@ -103,6 +103,10 @@ public class
     protected long start_time = 0L;
     protected long elapsed_time = 0L;
 
+	/**
+	 * Default constructor for extending
+	 */
+	protected TextRank() {}
 
     /**
      * Constructor.
